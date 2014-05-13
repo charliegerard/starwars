@@ -6,4 +6,4 @@ TODO:
 
 ---
 
-I just worked on this projects to get to learn how to use Three.js.
+I just worked on this project to get to learn how to use Three.js.
