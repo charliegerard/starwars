@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Star Wars Three.js</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<style>
+		body {
+			font-family: Monospace;
+			/*background-color: #f0f0f0;*/
+			background-color: black;
+			margin: 0px;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script>
+	<script src="js/stats.min.js"></script>
+	<script src="js/helvetiker_regular.typeface.js"></script>
+
+	<script>
+
+		var container, stats;
+		var camera, scene, renderer;
+		var group, text, text2;
+		var targetRotation = 0;
+		var targetRotationOnMouseDown = 0;
+
+		var mouseX = 0;
+		var mouseXOnMouseDown = 0;
+
+		var windowHalfX = window.innerWidth / 2;
+		var windowHalfY = window.innerHeight / 2;
+
+		init();
+		animate();
+
+		function init() {
+
+			container = document.createElement( 'div' );
+			document.body.appendChild( container );
+
+			var info = document.createElement( 'div' );
+			info.style.position = 'absolute';
+			info.style.top = '10px';
+			info.style.width = '100%';
+			info.style.textAlign = 'center';
+
+			//Sets the color of the info to white so we can see them on the black background
+			info.style.color = 'white';
+			info.innerHTML = 'Star Wars opening crawl recreated using Three.js by <a href="http://github.com/charliegerard">Charlie Gerard</a>';
+			container.appendChild( info );
+
+			camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
+			//Original settings of the camera;
+			// camera.position.set( 0, 150, 500 );
+
+			//New settings
+			//First value is kinda left, 2nd is bottom and third is depth;
+			camera.position.set( 0, 160, 200 );
+
+			scene = new THREE.Scene();
+
+			var theText = "Star Wars"
+			var theText2 = "A long time ago, in a galaxy far, far away...."
+ 			var theText3 =	"It is a period of civil war. Rebel"
+ 			var theText4 = "spaceships, striking from a hidden"
+			var theText5 = "base, have won their first victory"
+			var theText6 =  "against the evil Galactic Empire."
+
+			// Get text from hash
+			var hash = document.location.hash.substr( 1 );
+			if ( hash.length !== 0 ) {
+				theText = hash;
+			}
+
+//--------------------------- TEST PART --------------------------
+			//Adding each sentence separately cause I didn't get yet how to do it another way.
+
+			var text3d2 = new THREE.TextGeometry( theText2, {
+				size: 20,
+				//height seems to change the volume of the text
+				height: 5,
+				curveSegments: 5,
+				font: "helvetiker"
+			});
+
+			text3d2.computeBoundingBox();
+			var centerOffset = -0.5 * ( text3d2.boundingBox.max.x - text3d2.boundingBox.min.x );
+			var textMaterial2 = new THREE.MeshBasicMaterial( { color: 'rgb(253, 221, 0)', overdraw: 0.1 });
+			text2 = new THREE.Mesh( text3d2, textMaterial2 );
+
+			text2.position.x = centerOffset;
+			text2.position.y = 60;
+			text2.position.z = 300;
+
+			//Gives the text an angle
+			text2.rotation.x = 150;
+			//text2.rotation.y = Math.PI * 2;
+
+			group = new THREE.Object3D();
+			group.add( text2 );
+			scene.add( group );
+
+		//--------------------- 3rd sentence -----------------
+
+				var text3d3 = new THREE.TextGeometry( theText3, {
+					size: 18,
+					//height seems to change the volume of the text
+					height: 5,
+					curveSegments: 5,
+					font: "helvetiker"
+				});
+
+				text3d3.computeBoundingBox();
+				var centerOffset = -0.5 * ( text3d3.boundingBox.max.x - text3d3.boundingBox.min.x );
+				var textMaterial3 = new THREE.MeshBasicMaterial( { color: 'rgb(253, 221, 10)', overdraw: 0.1 });
+				text3 = new THREE.Mesh( text3d3, textMaterial3 );
+
+				text3.position.x = centerOffset;
+				text3.position.y = 50;
+				text3.position.z = 300;
+
+				//Gives the text an angle
+				text3.rotation.x = 150;
+				//text2.rotation.y = Math.PI * 2;
+
+				group = new THREE.Object3D();
+				group.add( text3 );
+				scene.add( group );
+
+		//---------------------- 4th sentence ---------------------
+				var text3d4 = new THREE.TextGeometry( theText4, {
+					size: 16,
+					//height seems to change the volume of the text
+					height: 5,
+					curveSegments: 5,
+					font: "helvetiker"
+				});
+
+				text3d4.computeBoundingBox();
+				var centerOffset = -0.5 * ( text3d4.boundingBox.max.x - text3d4.boundingBox.min.x );
+
+				var textMaterial4 = new THREE.MeshBasicMaterial( { color: 'rgb(253, 221, 10)', overdraw: 0.1 });
+				text4 = new THREE.Mesh( text3d4, textMaterial4 );
+
+				text4.position.x = centerOffset;
+				text4.position.y = 40;
+				text4.position.z = 300;
+
+				//Gives the text an angle
+				text4.rotation.x = 150;
+				//text2.rotation.y = Math.PI * 2;
+
+				group = new THREE.Object3D();
+				group.add( text4 );
+				scene.add( group );
+
+		//------------------------- 5th sentence ------------------------
+
+				var text3d5 = new THREE.TextGeometry( theText5, {
+					size: 14,
+					//height seems to change the volume of the text
+					height: 5,
+					curveSegments: 5,
+					font: "helvetiker"
+				});
+
+				text3d5.computeBoundingBox();
+				var centerOffset = -0.5 * ( text3d5.boundingBox.max.x - text3d5.boundingBox.min.x );
+
+				var textMaterial5 = new THREE.MeshBasicMaterial( { color: 'rgb(253, 221, 10)', overdraw: 0.1 });
+				text5 = new THREE.Mesh( text3d5, textMaterial5 );
+
+				text5.position.x = centerOffset;
+				text5.position.y = 30;
+				text5.position.z = 300;
+
+				//Gives the text an angle
+				text5.rotation.x = 150;
+				//text2.rotation.y = Math.PI * 2;
+
+				group = new THREE.Object3D();
+				group.add( text5 );
+				scene.add( group );
+
+		//----------------------6th sentence-----------------------------
+
+				var text3d6 = new THREE.TextGeometry( theText6, {
+					size: 12,
+					//height seems to change the volume of the text
+					height: 5,
+					curveSegments: 5,
+					font: "helvetiker"
+				});
+
+				text3d6.computeBoundingBox();
+				var centerOffset = -0.5 * ( text3d6.boundingBox.max.x - text3d6.boundingBox.min.x );
+
+				var textMaterial6 = new THREE.MeshBasicMaterial( { color: 'rgb(253, 221, 10)', overdraw: 0.1 });
+				text6 = new THREE.Mesh( text3d6, textMaterial6 );
+
+				text6.position.x = centerOffset;
+				text6.position.y = 20;
+				text6.position.z = 300;
+
+				//Gives the text an angle
+				text6.rotation.x = 150;
+				//text2.rotation.y = Math.PI * 2;
+
+				group = new THREE.Object3D();
+				group.add( text6 );
+				scene.add( group );
+
+
+
+//---------------------------------------------------------------
+
+				var text3d = new THREE.TextGeometry( theText, {
+					size: 50,
+					height: 10,
+					curveSegments: 5,
+					font: "helvetiker"
+
+				});
+
+				text3d.computeBoundingBox();
+				var centerOffset = -0.5 * ( text3d.boundingBox.max.x - text3d.boundingBox.min.x );
+
+				// var textMaterial = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, overdraw: 0.5 } );
+				//The previous color of the text was randomised but I wanted it to be the Star Wars yellow.
+				var textMaterial = new THREE.MeshBasicMaterial( { color: 'rgb(253, 221, 0)', overdraw: 0.1 } );
+				//overdraw is the width of the 3D letters;
+				text = new THREE.Mesh( text3d, textMaterial );
+
+				text.position.x = centerOffset;
+				text.position.y = 100;
+				text.position.z = 200;
+
+				//Gives the text an angle
+				text.rotation.x = 150;
+				text.rotation.y = Math.PI * 2;
+
+				group = new THREE.Object3D();
+				group.add( text );
+
+				scene.add( group );
+
+				renderer = new THREE.CanvasRenderer();
+				// renderer.setClearColor( 0xf0f0f0 );
+				//Makes the background color black for more Star Wars effect.
+				renderer.setClearColor( 'black' );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				container.appendChild( renderer.domElement );
+
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				container.appendChild( stats.domElement );
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			function onWindowResize() {
+
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+
+
+			function animate() {
+				requestAnimationFrame( animate );
+
+				render();
+				stats.update();
+			}
+
+			function render() {
+				//Makes the text go slower and disappear
+				for(var i = 0; i < 6; i++){
+				 	text.position.z -= i / 4
+				 	text2.position.z -= i / 4
+				 	text3.position.z -= i / 5
+				 	text4.position.z -= i / 6
+				 	text5.position.z -= i / 7
+				 	text6.position.z -= i / 8
+				}
+				//group.rotation.y += ( targetRotation - group.rotation.y ) * 0.05;
+				renderer.render( scene, camera );
+			}
+
+		</script>
+
+</body>
+</html>
