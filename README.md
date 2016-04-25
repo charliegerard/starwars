@@ -1,12 +1,5 @@
-#Star Wars opening crawl using Three.js
+#Star Wars opening crawl using HTML, CSS & JS
 
-This website is a quick experimentation using the THREE.js library to reproduce one of the Star Wars opening crawl in 3D in your browser.
+Experiment to try and recreate one of Star Wars' opening crawl using HTML, CSS & JS.
 
-This is a work in progress and needs some fixing to make it faster and add the rest of the text.
-
-
-##TODO:
-
-* Clean and refactor the code to make it faster.
-* Add the other paragraphs.
-* Maybe add some stars and music.
+This is a work in progress. Need to add sound and maybe some 3D elements.
