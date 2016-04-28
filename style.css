@@ -18,6 +18,17 @@ body{
 	color: white;
 	font-weight: 400;
 	font-size: 12px;
+	display: none;
+}
+
+#title{
+	 color: rgb(75, 213, 238);
+	 transform-origin: 50% 100%;
+	 position: absolute;
+	 margin: -1em 0 0 -7.65em;
+	 font-size: 3em;
+	 line-height: 1em;
+	 font-weight: 200;
 }
 
 section{
@@ -35,7 +46,7 @@ section{
 	margin: 0 0 0 -7.65em;
 	font-size: 3em;
 	text-align: justify;
-	/*overflow: hidden;*/
+	overflow: hidden;
 	color: yellow;
 	transform-origin: 50% 100%;
 	transform: perspective(300px) rotateX(25deg);
@@ -44,6 +55,9 @@ section{
 .content div{
 	position: absolute;
 	top: 100%;
+}
+
+.content div.animated{
 	animation: content 70s linear 0s;
 }
 
