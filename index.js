@@ -4,6 +4,7 @@ window.onload = function(){
 
   var audioState = setInterval(function(){
     if(sound.readyState === 4){
+      console.log('ready to play')
       start = true;
     }
   }, 200)
