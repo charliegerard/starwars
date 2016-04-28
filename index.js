@@ -21,7 +21,6 @@ window.onload = function(){
       }
     }, 200);
 
-
     var title = document.getElementById('title');
     title.style.opacity = 1;
     var fadeOutTitle = setTimeout(function(){
