@@ -5,11 +5,11 @@ window.onload = function(){
   var audioState = setInterval(function(){
     if(sound.readyState === 4){
       start = true;
-      clearInterval(audioState)
     }
   }, 200)
 
   if(start === true){
+    clearInterval(audioState)
     var fadeAudio = setInterval(function () {
       if ((sound.currentTime >= 77) && (sound.volume >= 0.1)) {
         sound.volume -= 0.1;
